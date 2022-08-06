@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- displays site properly based on user's device -->
+
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./images/favicon-32x32.png"
+    />
+
+    <title>Frontend Mentor | Interactive card details form</title>
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app">
+      <div class="col col-one">
+        <div class="card-container">
+          <div class="card card-front">
+            <div class="card-content">
+              <img class="logo" src="./images/card-logo.svg" alt="img" />
+              <div class="card-info-row">
+                <div class="card-number">
+                  <div class="number-group group-1">
+                    <p class="num num1">0123</p>
+                  </div>
+                  <div class="number-group group-2">
+                    <p class="num num1">4567</p>
+                  </div>
+                  <div class="number-group group-3">
+                    <p class="num num1">8901</p>
+                  </div>
+                  <div class="number-group group-4">
+                    <p class="num num1">1213</p>
+                  </div>
+                </div>
+                <div class="info-row">
+                  <div class="name-div">
+                    <p class="first">Felicia</p>
+                    <p class="last">Liere</p>
+                  </div>
+                  <div class="date-div">
+                    <p>
+                      <span class="month">00</span>/<span class="year">00</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card card-back"></div>
+        </div>
+        <div class="col-overlay"></div>
+      </div>
+      <div class="col col-two">
+        <div class="form-container">
+          <div class="form-div">
+            <label class="label" for="cardholder">Cardholder Name</label>
+            <input
+              type="text"
+              name="cardholder"
+              id="cardholder"
+              placeholder="e.g Jane Appleseed"
+              class="form-control"
+            />
+            <h5 class="error" data-error="cardholder">error</h5>
+          </div>
+          <div class="form-div">
+            <label class="label" for="cardnumber">Card Number</label>
+            <input
+              type="text"
+              name="cardnumber"
+              id="cardnumber"
+              placeholder="e.g 1234 5678 9123 0000"
+              class="form-control"
+            />
+            <h5 class="error" data-error="cardholder">error</h5>
+          </div>
+
+          <!--date-row-->
+          <div class="date-row">
+            <div class="date-div">
+              <label class="label" for="date">Exp. Date (MM/YY)</label>
+              <div class="row">
+                <div>
+                  <input type="text" class="date-form" placeholder="MM" />
+                  <h5 class="error" data-error>year error</h5>
+                </div>
+                <div>
+                  <input type="text" class="date-form" placeholder="YY" />
+                  <h5 class="error" data-error>month error</h5>
+                </div>
+              </div>
+            </div>
+            <div class="cvc-div">
+              <label class="label" for="cvc">CVC</label>
+              <input
+                type="text"
+                name="cvc"
+                placeholder="e.g 123"
+                class="form-control"
+              />
+              <h5 class="error" data-error>cvc error</h5>
+            </div>
+          </div>
+          <button class="confirm-btn">Confirm</button>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="attribution">
+      Challenge by
+      <a href="https://www.frontendmentor.io?ref=challenge" target="_blank"
+        >Frontend Mentor</a
+      >. Coded by <a href="#">Your Name Here</a>.
+    </div> -->
+  </body>
+</html>
