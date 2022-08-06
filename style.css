@@ -6,8 +6,13 @@
   box-sizing: border-box;
 }
 
+input {
+  outline: none;
+}
+
 .app {
   height: 100vh;
+  min-height: 800px;
   width: 100vw;
   display: flex;
   font-family: "Space Grotesk", sans-serif;
@@ -17,6 +22,10 @@
   width: 50%;
   height: 100%;
   /* border: 2px solid black; */
+}
+
+.error {
+  color: red;
 }
 
 .col-one,
@@ -39,12 +48,27 @@
   z-index: -1;
 }
 
+.card-container {
+  min-height: 500px;
+}
+
+.card-back {
+  position: relative;
+}
+
+.cvc {
+  position: absolute;
+  top: 43%;
+  left: 75%;
+  color: white;
+  letter-spacing: 1px;
+}
+
 .card-container,
 .form-container {
   /* height: 300px; */
   width: clamp(300px, 325px, 95%);
   /* border: 2px solid black; */
-
   margin-left: 1.5rem;
 }
 
@@ -243,6 +267,7 @@
 
   .form-container {
     margin-top: 5em;
+    min-height: 400px;
   }
 
   .date-form,
@@ -253,6 +278,7 @@
   .col-one,
   .col-two {
     width: 100%;
+    min-height: 500px;
   }
 
   .col-overlay {
@@ -261,6 +287,16 @@
 
   .col-one {
     height: 40%;
+  }
+
+  .info-row,
+  .date-row {
+    padding: 0;
+  }
+
+  .date-div {
+    margin: 0;
+    margin-left: 12px;
   }
 
   .col-two {
@@ -285,7 +321,7 @@
   }
 }
 
-@media screen and (max-width: 385px) {
+@media screen and (max-width: 365px) {
   .card-front {
     transform: translate(-5%, 95%);
     position: relative;
