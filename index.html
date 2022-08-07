@@ -65,6 +65,7 @@
               type="text"
               name="cardholder"
               id="cardholder"
+              autocomplete="off"
               placeholder="e.g Jane Appleseed"
               class="form-control"
             />
@@ -76,6 +77,7 @@
               type="text"
               name="cardnumber"
               id="cardnumber"
+              autocomplete="off"
               placeholder="e.g 1234 5678 9123 0000"
               class="form-control"
             />
@@ -92,6 +94,7 @@
                     type="text"
                     class="date-form"
                     name="month"
+                    autocomplete="off"
                     placeholder="MM"
                   />
                   <h5 class="error month-error" data-error></h5>
@@ -101,6 +104,7 @@
                     type="text"
                     class="date-form"
                     name="year"
+                    autocomplete="off"
                     placeholder="YY"
                   />
                   <h5 class="error year-error" data-error></h5>
@@ -114,6 +118,7 @@
                 <input
                   type="text"
                   name="cvc"
+                  autocomplete="off"
                   placeholder="e.g 123"
                   class="cvc-control"
                 />
@@ -121,9 +126,7 @@
               </div>
             </div>
           </div>
-          <button type="submit" disabled="true" class="confirm-btn">
-            Confirm
-          </button>
+          <button type="submit" class="confirm-btn">Confirm</button>
         </form>
         <div class="thank-you-modal">
           <div class="thank-you-check">
@@ -151,6 +154,20 @@
       let monthEl = document.querySelector(".month");
       let yearEl = document.querySelector(".year");
       let numsEl = document.querySelectorAll(".num");
+      let userInfo = {
+        cardholder: "",
+        cardnumber: "",
+        month: "",
+        year: "",
+        cvc: "",
+      };
+      let hasError = {
+        ch: true,
+        cc: true,
+        month: true,
+        year: true,
+        cvc: true,
+      };
 
       var errors = document.querySelectorAll(".error");
       let validLetters = [];
@@ -173,6 +190,7 @@
                 ".cardholder-error"
               ).innerHTML = `Warning format, invalid name format`;
               e.target.style.border = "2px solid red";
+              hasError.ch = true;
               return;
             }
           }
@@ -191,6 +209,8 @@
                 ".cardholder-error"
               ).innerHTML = `Warning format, letters only`;
               e.target.style.border = "2px solid red";
+              hasError.ch = true;
+
               return;
             }
           }
@@ -200,6 +220,8 @@
           document.querySelector(".cardholder-error").innerHTML = ``;
           e.target.style.border = "1px solid lightgray";
           cardholderEl.innerHTML = e.target.value;
+          userInfo.cardholder = e.target.value;
+          hasError.ch = false;
         }
       };
 
@@ -211,6 +233,7 @@
               ".cardnumber-error"
             ).innerHTML = `Warning format, numbers only`;
             e.target.style.border = "1px solid red";
+            hasError.cc = true;
 
             return;
           }
@@ -224,6 +247,8 @@
               ".cardnumber-error"
             ).innerHTML = `Warning format, invalid length`;
             e.target.style.border = "1px solid red";
+            hasError.cc = true;
+
             return;
           }
 
@@ -242,6 +267,8 @@
         }
         document.querySelector(".cardnumber-error").innerHTML = ``;
         e.target.style.border = "1px solid lightgray";
+        hasError.cc = false;
+        userInfo.cardnumber = e.target.value;
 
         // cardnumberEl.innerHTML
       };
@@ -250,6 +277,7 @@
         if (isNaN(e.data)) {
           console.log("invalid number!");
           e.target.style.border = "1px solid red";
+          hasError.cvc = true;
 
           document.querySelector(
             ".cvc-error"
@@ -262,13 +290,17 @@
           document.querySelector(
             ".cvc-error"
           ).innerHTML = `Warning format, numbers only`;
+          hasError.cvc = true;
+
           return;
         }
         console.log("enter a cvc!");
         e.target.style.border = "1px solid lightgray";
         document.querySelector(".cvc-error").innerHTML = ``;
+        hasError.cvc = false;
 
         cvcEl.innerHTML = e.target.value;
+        userInfo.cvc = e.target.value;
       };
 
       document.querySelector("input[name='month']").oninput = (e) => {
@@ -278,6 +310,8 @@
             ".month-error"
           ).innerHTML = `Warning format, numbers only`;
           e.target.style.border = "1px solid red";
+          hasError.month = true;
+
           return;
         }
         if (parseInt(e.target.value) > 12) {
@@ -285,14 +319,16 @@
             ".month-error"
           ).innerHTML = `Warning format, invalid month`;
           e.target.style.border = "1px solid red";
+          hasError = true;
 
           return;
         }
         console.log("enter a month!");
         document.querySelector(".month-error").innerHTML = ``;
         e.target.style.border = "1px solid lightgray";
-
+        hasError.month = false;
         monthEl.innerHTML = e.target.value;
+        userInfo.month = e.target.value;
       };
 
       document.querySelector("input[name='year']").oninput = (e) => {
@@ -307,14 +343,40 @@
           document.querySelector(
             ".year-error"
           ).innerHTML = `Warning format, invalid exp date`;
+          hasError.year = true;
+
           return;
         }
         console.log("enter a year!");
         document.querySelector(".year-error").innerHTML = ``;
 
         e.target.style.border = "1px solid lightgray";
+        hasError.year = false;
 
         yearEl.innerHTML = e.target.value;
+        userInfo.year = e.target.value;
+      };
+
+      document.querySelector("form").onsubmit = (e) => {
+        console.log("excuse u?", userInfo);
+        e.preventDefault();
+        for (let i in userInfo) {
+          if (userInfo[i] == "") {
+            console.log("invalid user info!!", userInfo[i]);
+            return;
+          }
+        }
+        for (let j in hasError) {
+          if (hasError[j] == true) {
+            console.log("you have an error");
+            return;
+          }
+        }
+        // if (hasError) {
+        //   console.log("error somewhere with your input :(");
+        //   return;
+        // }
+        console.log("looks good");
       };
     </script>
   </body>
