@@ -29,13 +29,13 @@
                     <p class="num num1">0123</p>
                   </div>
                   <div class="number-group group-2">
-                    <p class="num num1">4567</p>
+                    <p class="num num2">4567</p>
                   </div>
                   <div class="number-group group-3">
-                    <p class="num num1">8901</p>
+                    <p class="num num3">8901</p>
                   </div>
                   <div class="number-group group-4">
-                    <p class="num num1">1213</p>
+                    <p class="num num4">1213</p>
                   </div>
                 </div>
                 <div class="info-row">
@@ -58,7 +58,7 @@
         <div class="col-overlay"></div>
       </div>
       <div class="col col-two">
-        <div class="form-container">
+        <form class="form-container">
           <div class="form-div">
             <label class="label" for="cardholder">Cardholder Name</label>
             <input
@@ -91,34 +91,47 @@
                   <input
                     type="text"
                     class="date-form"
-                    name="year"
+                    name="month"
                     placeholder="MM"
                   />
-                  <h5 class="error year-error" data-error></h5>
+                  <h5 class="error month-error" data-error></h5>
                 </div>
                 <div>
                   <input
                     type="text"
                     class="date-form"
-                    name="month"
+                    name="year"
                     placeholder="YY"
                   />
-                  <h5 class="error month-error" data-error></h5>
+                  <h5 class="error year-error" data-error></h5>
                 </div>
               </div>
             </div>
             <div class="cvc-div">
-              <label class="label" for="cvc">CVC</label>
-              <input
-                type="text"
-                name="cvc"
-                placeholder="e.g 123"
-                class="form-control"
-              />
-              <h5 class="error cvc-error" data-error></h5>
+              <div class="cvc-form-div">
+                <label class="label" for="cvc">CVC</label>
+                <br />
+                <input
+                  type="text"
+                  name="cvc"
+                  placeholder="e.g 123"
+                  class="cvc-control"
+                />
+                <h5 class="error cvc-error" data-error></h5>
+              </div>
             </div>
           </div>
-          <button class="confirm-btn">Confirm</button>
+          <button type="submit" disabled="true" class="confirm-btn">
+            Confirm
+          </button>
+        </form>
+        <div class="thank-you-modal">
+          <div class="thank-you-check">
+            <img src="./images/icon-complete.svg" alt="icon" />
+            <h1>THANK YOU</h1>
+            <h5>We've added your card details</h5>
+            <button class="btn contine-btn">Continue</button>
+          </div>
         </div>
       </div>
     </div>
@@ -130,60 +143,132 @@
     </div> -->
 
     <script>
+      let thankyouModal = document.querySelector(".thank-you-modal");
+      thankyouModal.style.display = "none";
+
       let cvcEl = document.querySelector(".cvc");
       let cardholderEl = document.querySelector(".cardholder_name");
       let monthEl = document.querySelector(".month");
       let yearEl = document.querySelector(".year");
+      let numsEl = document.querySelectorAll(".num");
 
       var errors = document.querySelectorAll(".error");
       let validLetters = [];
 
       document.querySelector("input[name='cardholder']").oninput = (e) => {
-        console.log("enter a name!", e.target);
-        cardholderEl.innerHTML = e.target.value;
+        // cardholderEl.innerHTML = e.target.value;
         // console.log(String.fromCharCode(65));
         // console.log(String.fromCharCode(90));
+        let counter = 0;
+
         for (let i in e.target.value.split("")) {
-          if (
-            e.target.value.split("")[i]?.toUpperCase().charCodeAt(0) < 65 ||
-            e.target.value.split("")[i]?.toUpperCase().charCodeAt(0) > 91
-          ) {
-            console.log("invalid char!");
-            document.querySelector(
-              ".cardholder-error"
-            ).innerHTML = `Warning format, letters only`;
-            e.target.style.border = "2px solid red";
-            return;
+          let isWhiteSpace = false;
+          if (e.target.value[i] == " ") {
+            isWhiteSpace = true;
+            console.log("White space!!");
+            counter++;
+            if (counter > 1) {
+              console.log("space error!");
+              document.querySelector(
+                ".cardholder-error"
+              ).innerHTML = `Warning format, invalid name format`;
+              e.target.style.border = "2px solid red";
+              return;
+            }
+          }
+          if (!isWhiteSpace) {
+            console.log(
+              "enter check",
+              e.target.value.split("")[i]?.toUpperCase().charCodeAt(0)
+            );
+
+            if (
+              e.target.value.split("")[i]?.toUpperCase().charCodeAt(0) < 65 ||
+              e.target.value.split("")[i]?.toUpperCase().charCodeAt(0) > 91
+            ) {
+              console.log("invalid char!");
+              document.querySelector(
+                ".cardholder-error"
+              ).innerHTML = `Warning format, letters only`;
+              e.target.style.border = "2px solid red";
+              return;
+            }
           }
         }
         {
+          console.log("huh?");
           document.querySelector(".cardholder-error").innerHTML = ``;
+          e.target.style.border = "1px solid lightgray";
+          cardholderEl.innerHTML = e.target.value;
         }
       };
 
       document.querySelector("input[name='cardnumber']").oninput = (e) => {
-        if (isNaN(e.data)) {
-          console.log("invalid number!");
-          document.querySelector(
-            ".cardnumber-error"
-          ).innerHTML = `Warning format, numbers only`;
-          e.target.style.border = "1px solid red;";
+        for (let i in e.target.value.split("")) {
+          if (isNaN(e.target.value.split("")[i])) {
+            console.log("invalid number!");
+            document.querySelector(
+              ".cardnumber-error"
+            ).innerHTML = `Warning format, numbers only`;
+            e.target.style.border = "1px solid red";
 
-          return;
+            return;
+          }
+          let ccNum = e.target.value;
+          let counter = 0;
+          let numsBox = 0;
+          let numHTML = "";
+          console.log(ccNum);
+          if (ccNum.length > 16) {
+            document.querySelector(
+              ".cardnumber-error"
+            ).innerHTML = `Warning format, invalid length`;
+            e.target.style.border = "1px solid red";
+            return;
+          }
+
+          for (let i = 0; i < ccNum.length; i++) {
+            numHTML += ccNum[i];
+            numsEl[numsBox].innerHTML = numHTML;
+
+            counter++;
+            if (counter === 4) {
+              numsEl[numsBox].innerHTML = numHTML;
+              numHTML = "";
+              counter = 0;
+              numsBox++;
+            }
+          }
         }
+        document.querySelector(".cardnumber-error").innerHTML = ``;
+        e.target.style.border = "1px solid lightgray";
 
         // cardnumberEl.innerHTML
       };
 
       document.querySelector("input[name='cvc']").oninput = (e) => {
-        console.log("enter a cvc!");
-        cvcEl.innerHTML = e.target.value;
         if (isNaN(e.data)) {
           console.log("invalid number!");
+          e.target.style.border = "1px solid red";
+
           document.querySelector(
-            ".cardnumber-error"
+            ".cvc-error"
           ).innerHTML = `Warning format, numbers only`;
+          return;
         }
+
+        if (e.target.value.length > 3) {
+          e.target.style.border = "1px solid red";
+          document.querySelector(
+            ".cvc-error"
+          ).innerHTML = `Warning format, numbers only`;
+          return;
+        }
+        console.log("enter a cvc!");
+        e.target.style.border = "1px solid lightgray";
+        document.querySelector(".cvc-error").innerHTML = ``;
+
+        cvcEl.innerHTML = e.target.value;
       };
 
       document.querySelector("input[name='month']").oninput = (e) => {
@@ -192,8 +277,21 @@
           document.querySelector(
             ".month-error"
           ).innerHTML = `Warning format, numbers only`;
+          e.target.style.border = "1px solid red";
+          return;
         }
-        console.log("enter a cvc!");
+        if (parseInt(e.target.value) > 12) {
+          document.querySelector(
+            ".month-error"
+          ).innerHTML = `Warning format, invalid month`;
+          e.target.style.border = "1px solid red";
+
+          return;
+        }
+        console.log("enter a month!");
+        document.querySelector(".month-error").innerHTML = ``;
+        e.target.style.border = "1px solid lightgray";
+
         monthEl.innerHTML = e.target.value;
       };
 
@@ -204,7 +302,18 @@
             ".year-error"
           ).innerHTML = `Warning format, numbers only`;
         }
-        console.log("enter a cvc!");
+
+        if (parseInt(e.target.value) < 22 || parseInt(e.target.value) > 100) {
+          document.querySelector(
+            ".year-error"
+          ).innerHTML = `Warning format, invalid exp date`;
+          return;
+        }
+        console.log("enter a year!");
+        document.querySelector(".year-error").innerHTML = ``;
+
+        e.target.style.border = "1px solid lightgray";
+
         yearEl.innerHTML = e.target.value;
       };
     </script>

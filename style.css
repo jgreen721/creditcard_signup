@@ -178,7 +178,8 @@ input {
 }
 
 .date-div {
-  margin: 0px 1.5em;
+  /* margin: 0px 1.5em; */
+  /* border: 2px solid red; */
 }
 
 .first {
@@ -212,8 +213,17 @@ input {
 }
 
 .date-row {
-  padding: 0.5em;
+  /* padding: 0.5em; */
   display: flex;
+  justify-content: space-between;
+  /* border: 2px solid green; */
+  /* border: 2px solid red; */
+}
+
+.cvc-div {
+  /* border: 2px solid purple; */
+  width: 100%;
+  position: relative;
 }
 
 .row {
@@ -228,6 +238,17 @@ input {
   border-radius: 5px;
   border: 1px solid gray;
   font-size: 1.05rem;
+}
+
+.cvc-control {
+  width: 115px;
+  padding: 0.45em;
+  margin: 0.5em 0.5em;
+  /* transform: translateX(-0.5em); */
+  border-radius: 5px;
+  border: 1px solid gray;
+  font-size: 1.05rem;
+  /* float: right; */
 }
 
 .confirm-btn {
@@ -271,9 +292,14 @@ input {
   }
 
   .date-form,
-  .form-control {
+  .form-control,
+  .cvc-control {
     padding: 0.65em;
   }
+
+  /* .cvc-form-div {
+    float: right;
+  } */
 
   .col-one,
   .col-two {
@@ -296,7 +322,7 @@ input {
 
   .date-div {
     margin: 0;
-    margin-left: 12px;
+    margin-left: 120px;
   }
 
   .col-two {
